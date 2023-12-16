@@ -1,13 +1,11 @@
 package com.rupesh.paymentservice.resource;
 
 import com.rupesh.paymentservice.model.PaymentRequest;
+import com.rupesh.paymentservice.model.PaymentResponse;
 import com.rupesh.paymentservice.service.IPaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(
@@ -22,5 +20,11 @@ public class PaymentResource {
     public ResponseEntity<Long> doPayment(@RequestBody final PaymentRequest paymentRequest){
         return ResponseEntity.ok(paymentService.doPayment(paymentRequest));
     }
+
+    @GetMapping("/order/{orderId}")
+    public ResponseEntity<PaymentResponse> getPaymentDetails(@PathVariable final String orderId){
+        return ResponseEntity.ok(paymentService.getPaymentDetailsByOrderId(orderId));
+    }
+
 
 }

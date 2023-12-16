@@ -5,4 +5,5 @@ import com.rupesh.orderservice.model.OrderResponse;
 
 public interface IOrderService {
     OrderResponse placeOrder(OrderRequest request);
+    OrderResponse getOrderDetails(Long orderId);
 }

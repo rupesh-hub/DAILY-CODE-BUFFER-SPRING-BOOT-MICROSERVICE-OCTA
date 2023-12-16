@@ -1,7 +1,9 @@
 package com.rupesh.paymentservice.service;
 
 import com.rupesh.paymentservice.entity.TransactionDetail;
+import com.rupesh.paymentservice.model.PaymentMode;
 import com.rupesh.paymentservice.model.PaymentRequest;
+import com.rupesh.paymentservice.model.PaymentResponse;
 import com.rupesh.paymentservice.repository.TransactionDetailRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -34,6 +36,25 @@ public class PaymentService implements IPaymentService {
         log.info("transaction completed successfully!!");
 
         return transactionDetail.getId();
+    }
+
+    @Override
+    public PaymentResponse getPaymentDetailsByOrderId(String orderId) {
+        TransactionDetail transactionDetail = transactionDetailRepository
+                .findByOrderId(orderId)
+                .orElseThrow();
+
+        PaymentResponse paymentResponse =
+                PaymentResponse.builder()
+                        .paymentId(transactionDetail.getId())
+                        .paymentMode(PaymentMode.valueOf(transactionDetail.getPaymentMode()))
+                        .paymentDate(transactionDetail.getPaymentDate())
+                        .orderId(transactionDetail.getOrderId())
+                        .status(transactionDetail.getPaymentStatus())
+                        .amount(transactionDetail.getAmount())
+                        .build();
+
+        return paymentResponse;
     }
 
 }

@@ -6,10 +6,7 @@ import com.rupesh.orderservice.service.IOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path="/orders")
@@ -24,6 +21,11 @@ public class OrderResource {
                 orderService.placeOrder(request),
                 HttpStatus.CREATED
         );
+    }
+
+    @GetMapping("/{orderId}")
+    public ResponseEntity<OrderResponse> getOrderDetails(@PathVariable final Long orderId) {
+       return ResponseEntity.ok(orderService.getOrderDetails(orderId));
     }
 
 }
